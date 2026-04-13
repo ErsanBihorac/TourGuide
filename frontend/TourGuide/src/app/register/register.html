@@ -1,0 +1,82 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-6 py-12">
+  <div class="mx-auto flex min-h-screen w-full max-w-md items-center">
+    <div
+      class="w-full rounded-3xl border border-white/10 bg-white/5 p-8 text-slate-100 shadow-2xl shadow-black/40 backdrop-blur"
+    >
+      <div class="mb-8 text-center">
+        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Sign in</p>
+        <p class="mt-2 text-sm leading-relaxed text-slate-300">
+          Choose to sign in as a guide or promoter.
+        </p>
+      </div>
+
+      <div class="mb-8">
+        <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">role</p>
+        <div class="grid grid-cols-2 gap-3">
+          <button
+            (click)="setRole('guide')"
+            type="button"
+            class="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-emerald-300/50 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/60"
+            [ngClass]="{
+              'border-emerald-300/70 bg-emerald-300/10 ring-2 ring-emerald-300/50':
+                role() === 'guide',
+            }"
+          >
+            <div class="text-sm font-semibold text-white">Guide</div>
+            <div class="mt-1 text-xs text-slate-300">Tours & Experiences</div>
+            <span
+              class="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-emerald-300 to-cyan-300 opacity-0 transition group-hover:opacity-100"
+            ></span>
+          </button>
+          <button
+            (click)="setRole('promoter')"
+            type="button"
+            class="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-sky-300/60 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/60"
+            [ngClass]="{
+              'border-sky-300/70 bg-sky-300/10 ring-2 ring-sky-300/50': role() === 'promoter',
+            }"
+          >
+            <div class="text-sm font-semibold text-white">Promoter</div>
+            <div class="mt-1 text-xs text-slate-300">Events & Locations</div>
+            <span
+              class="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 opacity-0 transition group-hover:opacity-100"
+            ></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <button
+          [disabled]="role() === null"
+          (click)="signin()"
+          type="button"
+          class="inline-flex w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/60 disabled:cursor-not-allowed disabled:border-white/5 disabled:bg-white/5 disabled:text-slate-500 disabled:shadow-none disabled:opacity-70 disabled:hover:bg-white/5 disabled:focus-visible:ring-0"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M23.49 12.27c0-.82-.07-1.6-.2-2.36H12v4.47h6.44a5.5 5.5 0 0 1-2.38 3.6v2.98h3.84c2.25-2.08 3.59-5.14 3.59-8.69Z"
+              fill="#4285F4"
+            />
+            <path
+              d="M12 24c3.24 0 5.96-1.07 7.95-2.9l-3.84-2.98c-1.07.72-2.44 1.15-4.11 1.15-3.14 0-5.8-2.12-6.75-4.97H1.29v3.06A12 12 0 0 0 12 24Z"
+              fill="#34A853"
+            />
+            <path
+              d="M5.25 14.3A7.18 7.18 0 0 1 4.86 12c0-.8.14-1.57.39-2.3V6.64H1.29A12 12 0 0 0 0 12c0 1.93.46 3.76 1.29 5.36l3.96-3.06Z"
+              fill="#FBBC05"
+            />
+            <path
+              d="M12 4.77c1.76 0 3.34.6 4.58 1.77l3.43-3.43C17.95 1.2 15.24 0 12 0A12 12 0 0 0 1.29 6.64l3.96 3.06C6.2 6.89 8.86 4.77 12 4.77Z"
+              fill="#EA4335"
+            />
+          </svg>
+          Continue with Google
+        </button>
+      </div>
+
+      <p class="mt-6 text-center text-xs text-slate-400">
+        By registering, you accept our terms of use and privacy policy.
+      </p>
+    </div>
+  </div>
+</div>

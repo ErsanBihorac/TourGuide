@@ -1,0 +1,189 @@
+<div
+  class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-6 py-12 text-slate-100"
+>
+  <div class="mx-auto w-full max-w-3xl">
+    <div
+      class="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/40 backdrop-blur"
+    >
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Event</p>
+          <h1 class="mt-3 text-3xl font-semibold tracking-tight text-white">Event Details</h1>
+          <p class="mt-2 text-sm text-slate-300">
+            Hier siehst du die ausführlichen Informationen zum Event.
+          </p>
+        </div>
+        <button
+          type="button"
+          class="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs uppercase tracking-widest text-slate-200 transition hover:bg-white/20"
+          (click)="goToEventList()"
+        >
+          Return to event list
+        </button>
+      </div>
+
+      @if (!eventService.participatingEventId() && !isUpdatingStatus()) {
+        <div class="mt-8 grid gap-4 md:grid-cols-2">
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Titel</p>
+            <p class="mt-3 text-lg font-semibold text-white">{{ title() }}</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Datum</p>
+            <p class="mt-3 text-lg font-semibold text-white">{{ date() }}</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Ort</p>
+            <p class="mt-3 text-lg font-semibold text-white">{{ location() }}</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Status</p>
+            <p class="mt-3 text-lg font-semibold text-white">{{ status() }}</p>
+          </div>
+        </div>
+
+        <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Beschreibung</p>
+          <p class="mt-3 text-sm text-slate-200">{{ description() }}</p>
+          @if (eventId()) {
+            <p class="mt-4 text-xs text-slate-400">
+              Event-ID: <span class="font-semibold text-white">{{ eventId() }}</span>
+            </p>
+          }
+        </div>
+
+        <div class="mt-6 flex justify-end">
+          <button
+            type="button"
+            class="rounded-2xl bg-emerald-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-400/30 transition hover:-translate-y-0.5 hover:bg-emerald-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/70"
+            (click)="participate()"
+          >
+            Participate
+          </button>
+        </div>
+      }
+
+      @if (eventService.participatingEventId()) {
+        @if (!isUpdatingStatus()) {
+          <div class="mt-6 grid gap-4 md:grid-cols-2">
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Titel</p>
+              <p class="mt-3 text-lg font-semibold text-white">{{ title() }}</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Datum</p>
+              <p class="mt-3 text-lg font-semibold text-white">{{ date() }}</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Ort</p>
+              <p class="mt-3 text-lg font-semibold text-white">{{ location() }}</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Status</p>
+              <p class="mt-3 text-lg font-semibold text-white">{{ status() }}</p>
+            </div>
+          </div>
+
+          <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Beschreibung</p>
+            <p class="mt-3 text-sm text-slate-200">{{ description() }}</p>
+          </div>
+        }
+
+        <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Status</p>
+          <p class="mt-3 text-lg font-semibold text-white">
+            {{ status() }}
+            @if (status() === 'Arrival' && arrivalTime()) {
+              <span class="text-sm font-normal text-slate-300"> · {{ arrivalTime() }} </span>
+            }
+          </p>
+        </div>
+
+        <div class="mt-6 flex flex-wrap items-center justify-between gap-4">
+          @if (!isUpdatingStatus()) {
+            <button
+              type="button"
+              class="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs uppercase tracking-widest text-slate-200 transition hover:bg-white/20"
+              (click)="startUpdateStatus()"
+            >
+              Update status
+            </button>
+          }
+        </div>
+
+        @if (isUpdatingStatus()) {
+          <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Arrival</p>
+            <div class="mt-3 flex flex-wrap gap-3">
+              <button
+                type="button"
+                [ngClass]="
+                  arrivalTime() === 'cancel'
+                    ? 'rounded-full border border-rose-400/40 bg-rose-500/10 px-4 py-2 text-xs uppercase tracking-widest text-rose-200 transition hover:bg-rose-500/20'
+                    : 'rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs uppercase tracking-widest text-slate-200 transition hover:bg-white/20'
+                "
+                (click)="setArrivalPreset('cancel')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                [ngClass]="
+                  arrivalTime() === '1H'
+                    ? 'rounded-full border border-emerald-300/40 bg-emerald-300/20 px-4 py-2 text-xs uppercase tracking-widest text-emerald-100 transition'
+                    : 'rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs uppercase tracking-widest text-slate-200 transition hover:bg-white/20'
+                "
+                (click)="setArrivalPreset('1H')"
+              >
+                Arrival 1H
+              </button>
+              <button
+                type="button"
+                [ngClass]="
+                  arrivalTime() === '2H'
+                    ? 'rounded-full border border-emerald-300/40 bg-emerald-300/20 px-4 py-2 text-xs uppercase tracking-widest text-emerald-100 transition'
+                    : 'rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs uppercase tracking-widest text-slate-200 transition hover:bg-white/20'
+                "
+                (click)="setArrivalPreset('2H')"
+              >
+                Arrival in 2H
+              </button>
+              <button
+                type="button"
+                [ngClass]="
+                  arrivalTime() === 'Today'
+                    ? 'rounded-full border border-emerald-300/40 bg-emerald-300/20 px-4 py-2 text-xs uppercase tracking-widest text-emerald-100 transition'
+                    : 'rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs uppercase tracking-widest text-slate-200 transition hover:bg-white/20'
+                "
+                (click)="setArrivalPreset('Today')"
+              >
+                Arrival today
+              </button>
+              <button
+                type="button"
+                [ngClass]="
+                  arrivalTime() === 'Now'
+                    ? 'rounded-full border border-emerald-300/40 bg-emerald-300/20 px-4 py-2 text-xs uppercase tracking-widest text-emerald-100 transition'
+                    : 'rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs uppercase tracking-widest text-slate-200 transition hover:bg-white/20'
+                "
+                (click)="setArrivalPreset('Now')"
+              >
+                Arriving now
+              </button>
+            </div>
+            <div class="mt-4 flex justify-end">
+              <button
+                type="button"
+                class="rounded-2xl bg-emerald-400 px-6 py-2 text-xs font-semibold uppercase tracking-widest text-slate-950 shadow-lg shadow-emerald-400/30 transition hover:-translate-y-0.5 hover:bg-emerald-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/70"
+                (click)="saveArrival()"
+              >
+                Save arrival
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>
